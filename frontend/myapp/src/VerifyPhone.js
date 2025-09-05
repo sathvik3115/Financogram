@@ -145,7 +145,7 @@ function VerifyPhone() {
 const handleMail = async (e) => {
   e.preventDefault();
   try {
-    const response = await axios.post('http://localhost:8000/send-mail/', {
+    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/send-mail/`, {
       email: email,
       name: name,
     });

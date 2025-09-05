@@ -53,7 +53,7 @@ export default function Dashboard({ children }) {
 
   const handleLogout = () => {
     localStorage.clear();
-    fetch('http://localhost:8000/logout/', {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/logout/`, {
       method: 'POST',
       credentials: 'include',
     });

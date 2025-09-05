@@ -45,7 +45,7 @@ const Prediction = () => {
 
   const fetchStocks = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/prediction/stocks/');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prediction/stocks/`);
       setStocks(response.data.stocks);
     } catch (error) {
       console.error('Error fetching stocks:', error);
@@ -55,7 +55,7 @@ const Prediction = () => {
 
   const fetchStockInfo = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/prediction/stock/${selectedStock}/info/`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prediction/stock/${selectedStock}/info/`);
       setStockInfo(response.data);
     } catch (error) {
       console.error('Error fetching stock info:', error);
@@ -65,7 +65,7 @@ const Prediction = () => {
 
   const fetchPredictionHistory = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/prediction/history/${selectedStock}/`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prediction/history/${selectedStock}/`);
       setPredictionHistory(response.data);
     } catch (error) {
       console.error('Error fetching prediction history:', error);
@@ -84,7 +84,7 @@ const Prediction = () => {
     setPrediction(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/prediction/predict/', {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/prediction/predict/`, {
         symbol: selectedStock,
         timeframe: selectedTimeframe
       });
@@ -291,7 +291,7 @@ const Prediction = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8000/prediction/download/${prediction.symbol}/${prediction.timeframe}/`,
+        `${process.env.REACT_APP_BACKEND_URL}/prediction/download/${prediction.symbol}/${prediction.timeframe}/`,
         { responseType: 'blob' }
       );
 

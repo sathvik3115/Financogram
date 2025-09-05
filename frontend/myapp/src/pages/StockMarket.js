@@ -69,7 +69,7 @@ const StockMarket = () => {
       }
 
       // Fetch fresh data if cache is expired or doesn't exist
-      const res = await axios.get('http://localhost:8000/web/stocks/')
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/web/stocks/`)
       const stockData = res.data
 
       // Store in cache with timestamp
@@ -103,7 +103,7 @@ const StockMarket = () => {
       setLoading(true)
       try {
         const res = await axios.get(
-          `http://localhost:8000/web/stocks/${symbol}/chart/?period=${period}`
+          `${process.env.REACT_APP_BACKEND_URL}/web/stocks/${symbol}/chart/?period=${period}`
         )
         setChartData(res.data)
 
@@ -168,7 +168,7 @@ const StockMarket = () => {
     if (selectedStock) {
       axios
         .get(
-          `http://localhost:8000/web/stocks/${selectedStock.symbol}/details/`
+          `${process.env.REACT_APP_BACKEND_URL}/web/stocks/${selectedStock.symbol}/details/`
         )
         .then(res => setStockDetails(res.data))
         .catch(err => console.error('Failed to fetch stock details', err))

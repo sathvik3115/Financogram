@@ -33,7 +33,7 @@ function Login() {
     const imageSrc = webcamRef.current.getScreenshot();
 
     try {
-      const response = await fetch('http://localhost:8000/login-face/', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/login-face/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -20,7 +20,7 @@ const Chatbot = () => {
     setExpanded(true);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/web/chat/', {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/web/chat/`, {
         message: msg, 
       });
       setMessages([

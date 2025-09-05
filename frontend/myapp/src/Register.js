@@ -53,7 +53,7 @@ function Register () {
   const checkUsername = async value => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/check-username?username=${value}`
+        `${process.env.REACT_APP_BACKEND_URL}/check-username?username=${value}`
       )
       setIsAvailable(response.data.available)
     } catch (error) {
@@ -116,7 +116,7 @@ function Register () {
         face_image: capturedImage
       }
 
-      const response = await fetch('http://localhost:8000/register/', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/register/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

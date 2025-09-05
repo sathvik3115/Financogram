@@ -42,7 +42,7 @@ const Portfolio = () => {
         return;
       }
 
-      const res = await axios.get(`http://localhost:8000/web/investments/?email=${email}`);
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/web/investments/?email=${email}`);
       const dataWithNAV = await Promise.all(
         res.data.map(async (inv) => {
           try {

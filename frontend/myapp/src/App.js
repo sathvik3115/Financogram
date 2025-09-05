@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import Main1 from './Main1';
 
@@ -17,7 +17,7 @@ function App() {
 
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/hello/')
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/hello/`)
       .then((res) => {
         console.log('Message from backend:', res.data.message); // log here
       })

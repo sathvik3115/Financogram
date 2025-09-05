@@ -27,7 +27,7 @@ const MutualFunds = () => {
     const fetchFunds = async () => {
       try {
         setIsLoading(true)
-        const res = await axios.get('http://localhost:8000/web/mutual-funds/')
+        const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/web/mutual-funds/`)
         setFunds(res.data)
         setFilteredFunds(res.data)
         setTotalPages(Math.ceil(res.data.length / articlesPerPage))

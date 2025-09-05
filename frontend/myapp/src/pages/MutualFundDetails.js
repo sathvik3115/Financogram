@@ -34,7 +34,7 @@ const MutualFundDetails = () => {
     const fetchFundDetails = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:8000/web/mutual-fund-details/${id}/`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/web/mutual-fund-details/${id}/`);
         const data = await response.json();
         setFund(data);
         const sortedData = sortHistoricalData(data.historical_nav || []);
@@ -243,7 +243,7 @@ const MutualFundDetails = () => {
     payment_mode: formData.payment_mode
   };
 
-    const res = await axios.post("http://localhost:8000/web/mutual-funds/invest/", payload);
+    const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/web/mutual-funds/invest/`, payload);
     const { message, new_balance } = res.data || {};
     if (new_balance !== undefined) {
       alert(`${message || 'Investment saved successfully ✅'}\nUpdated Wallet Balance: ₹${Number(new_balance).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);

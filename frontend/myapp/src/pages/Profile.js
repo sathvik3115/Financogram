@@ -71,7 +71,7 @@ const Profile = () => {
     try {
       setLoading(true)
       const response = await fetch(
-        `http://localhost:8000/user-profile/?email=${email}`
+        `${process.env.REACT_APP_BACKEND_URL}/user-profile/?email=${email}`
       )
       if (!response.ok) throw new Error('Failed to fetch user')
       const data = await response.json()
@@ -99,7 +99,7 @@ const Profile = () => {
       const email = localStorage.getItem('user_email')
       if (!email) return
 
-      const res = await axios.get(`http://localhost:8000/web/investments/?email=${email}`)
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/web/investments/?email=${email}`)
       const dataWithNAV = await Promise.all(
         res.data.map(async (inv) => {
           try {
@@ -150,7 +150,7 @@ const Profile = () => {
         return
       }
 
-      const response = await fetch(`http://localhost:8000/update-wallet/`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-wallet/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -197,7 +197,7 @@ const Profile = () => {
 
   const handleEditProfile = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/update-profile/`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-profile/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -231,7 +231,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    fetch('http://localhost:8000/logout/', {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/logout/`, {
       method: 'POST',
       credentials: 'include',
     });
@@ -246,7 +246,7 @@ const Profile = () => {
         return
       }
 
-      const res = await axios.get(`http://localhost:8000/web/investments/?email=${email}`)
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/web/investments/?email=${email}`)
       const investments = Array.isArray(res.data) ? res.data : []
 
       const doc = new jsPDF({ unit: 'pt' })

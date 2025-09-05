@@ -10,7 +10,7 @@ const IndicesBar = () => {
   const fetchIndices = async () => {
     try {
       setIsLoading(true);
-      const res = await axios.get('http://localhost:8000/web/indices/');
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/web/indices/`);
       setIndices(res.data);
     } catch (err) {
       console.error("Failed to fetch indices", err);
