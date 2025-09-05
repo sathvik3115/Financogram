@@ -3,14 +3,13 @@
 import os
 import sys
 
-from startup import preload_facenet_model
+from startup import download_vgg_weights
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Financogram.settings')
     
-    preload_facenet_model()
-
+    download_vgg_weights()
     
     try:
         from django.core.management import execute_from_command_line
