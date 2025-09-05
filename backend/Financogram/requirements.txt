@@ -19,7 +19,6 @@ python-dotenv==1.0.0
 mediapipe==0.10.11
 deepface==0.0.83
 tensorflow==2.13.0
-tf_keras==2.19.0
 keras==2.13.1
 opencv-python==4.8.0.76
 beautifulsoup4==4.13.4
@@ -33,3 +32,4 @@ python-decouple==3.8
 django-environ==0.12.0
 gunicorn==23.0.0
 whitenoise==6.9.0
+gdown==5.2.0
