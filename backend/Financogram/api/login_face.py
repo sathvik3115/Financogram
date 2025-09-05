@@ -1,7 +1,6 @@
 import base64
 import cv2
 import numpy as np
-from deepface import DeepFace
 
 
 def decode_base64_image(data_url):
@@ -13,8 +12,9 @@ def decode_base64_image(data_url):
 
 
 def verify_face(img1, img2_path):
+    from deepface import DeepFace    
     try:
-        result = DeepFace.verify(img1_path=img1, img2_path=img2_path, enforce_detection=True)
+        result = DeepFace.verify(img1_path=img1, img2_path=img2_path, model_name='Facenet', enforce_detection=True)
         return result["verified"]
     except Exception as e:
         print("DeepFace error:", e)

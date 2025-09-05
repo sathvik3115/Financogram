@@ -1,1 +1,1 @@
-web: gunicorn Financogram.wsgi:application
+web: gunicorn Financogram.wsgi:application --workers=1 --threads=1 --timeout=120
