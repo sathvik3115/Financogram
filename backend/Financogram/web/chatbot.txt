@@ -1,0 +1,60 @@
+from django.http import JsonResponse
+from rest_framework.parsers import MultiPartParser
+from rest_framework.views import APIView
+from django.core.files.storage import default_storage
+import yfinance as yf
+
+FINANCIAL_KEYWORDS = [
+    "stock", "stocks", "share", "shares", "market", "price", "prices",
+    "mutual fund", "mutual funds", "etf", "etfs", "index fund", "index funds",
+    "nifty", "sensex", "nasdaq", "dow jones", "s&p 500", "portfolio", "equity", "equities",
+    "commodity", "commodities", "gold", "silver", "real estate", "property",
+    "finance", "financial", "investment", "invest", "investing", "returns",
+    "sip", "lump sum", "tax", "income tax", "capital gains", "tax saving",
+    "rbi", "interest rate", "inflation", "dividend", "ipo", "yield", "fund", "funds",
+    "debt", "asset", "assets", "liabilities", "wealth", "saving", "savings",
+    "budget", "financial planning", "retirement", "pension", "loan", "emi",
+    "credit", "credit card", "debit card", "demat", "broker", "brokerage",
+    "balance sheet", "profit", "loss", "earnings", "valuation", "intraday",
+    "long term", "short term", "trading", "investor", "buy", "sell", "hold",
+    "options", "futures", "derivatives", "mutual", "currency", "forex", "forex market",
+    "bitcoin", "crypto", "cryptocurrency", "ethereum", "blockchain", "token", "nft",
+    "fund manager", "aum", "expense ratio", "sip return", "nav", "risk profile",
+    "asset allocation", "diversification", "stock split", "merger", "acquisition"
+]
+
+def is_financial_query(query):
+    return any(keyword in query.lower() for keyword in FINANCIAL_KEYWORDS)
+
+# Real-time stock info
+def get_stock_info(symbol):
+    try:
+        stock = yf.Ticker(symbol)
+        data = stock.info
+        return f"{symbol.upper()} Current Price: ₹{data['currentPrice']}\nDay High: ₹{data['dayHigh']}, Low: ₹{data['dayLow']}"
+    except Exception as e:
+        return "Unable to fetch stock data. Please check symbol."
+
+@api_view(['POST'])
+def chat(request):
+    user_message = request.data.get("message", "")
+    session = request.session
+
+    # Basic context memory
+    history = session.get("chat_history", [])
+    history.append({"user": user_message})
+    session["chat_history"] = history
+
+    # Handle financial queries
+    if is_financial_query(user_message):
+        if "price of" in user_message.lower():
+            symbol = user_message.split("price of")[-1].strip().upper().split()[0]
+            reply = get_stock_info(symbol)
+        else:
+            reply = f"You asked about finance: \"{user_message}\". Let me analyze that for you."
+    else:
+        reply = "⚠️ Sorry, I can only answer financial queries Only. Please try again."
+
+    history[-1]["bot"] = reply
+    session["chat_history"] = history
+    return JsonResponse({"reply": reply})
