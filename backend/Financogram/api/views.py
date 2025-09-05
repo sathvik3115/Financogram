@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.core.cache import cache
 from django.core.files import File
+from rest_framework import status
 from django.conf import settings
 import cloudinary.uploader
 from .models import User
@@ -162,6 +163,12 @@ def login_face_view(request):
                 return JsonResponse({'status': 'Login successful!', 'email': user.email})
             else:
                 return JsonResponse({'status': 'Face verification failed!'}, status=401)
+            
+        except Exception as e:
+            # log error e
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+            
         finally:
             # Cleanup temp file
             if os.path.exists(tmp_file.name):

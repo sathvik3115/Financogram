@@ -34,10 +34,10 @@ DEBUG = False
 ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "").split(",") if host.strip()]
 
 # Optional: limit this to your frontend in production
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://192.168.137.1:3000",
+    "http://127.0.0.1:3000",
     "https://financogram.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
