@@ -20,7 +20,7 @@ def decode_base64_image(data_url):
 def verify_face(img1, img2_path):
         
     try:
-        result = DeepFace.verify(img1_path=img1, img2_path=img2_path, model_name="SFace", model=models, enforce_detection=False)
+        result = DeepFace.verify(img1_path=img1, img2_path=img2_path, model_name="SFace", enforce_detection=False)
         return result["verified"]
     except Exception as e:
         print("DeepFace error:", e)
