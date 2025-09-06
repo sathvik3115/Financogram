@@ -15,8 +15,8 @@ function FinancialNews() {
   const articlesPerPage = 12;
   const observerRef = useRef(null);
 
-  const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
-  const API_URL = `https://newsapi.org/v2/everything?q=sensex&language=en&sortBy=publishedAt&pageSize=36&apiKey=${API_KEY}`;
+  // const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
+  // const API_URL = `https://newsapi.org/v2/everything?q=sensex&language=en&sortBy=publishedAt&pageSize=36&apiKey=${API_KEY}`;
 
   const categories = [
     { id: 'all', name: 'All News', icon: 'fas fa-newspaper' },
@@ -107,12 +107,12 @@ function FinancialNews() {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      // const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/web/news/`);
-      const res = await fetch(API_URL, {
-        headers: {
-          "X-Api-Key": process.env.REACT_APP_NEWS_API_KEY
-        }
-      });
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/web/news/`);
+      // const res = await fetch(API_URL, {
+      //   headers: {
+      //     "X-Api-Key": process.env.REACT_APP_NEWS_API_KEY
+      //   }
+      // });
       const data = await res.json();
       if (data.status === "ok") {
         setNews(data.articles);
