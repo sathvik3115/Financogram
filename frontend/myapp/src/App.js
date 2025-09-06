@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import React, { useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import Main1 from './Main1';
 
 // import Loader from './loader';
@@ -16,15 +16,15 @@ function App() {
   // }, []);
 
 
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/hello/`)
-      .then((res) => {
-        console.log('Message from backend:', res.data.message); // log here
-      })
-      .catch((err) => {
-        console.error('Error fetching API:', err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`${process.env.REACT_APP_BACKEND_URL}/hello/`)
+  //     .then((res) => {
+  //       console.log('Message from backend:', res.data.message); // log here
+  //     })
+  //     .catch((err) => {
+  //       console.error('Error fetching API:', err);
+  //     });
+  // }, []);
 
   return (
     <>
