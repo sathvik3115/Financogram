@@ -2,12 +2,10 @@ import base64
 import cv2
 import numpy as np
 # import face_recognition
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-
+from .deepface_model import get_deepface_model  
 from deepface import DeepFace
 
-models = DeepFace.build_model("SFace")
+model = get_deepface_model("SFace")
 
 def decode_base64_image(data_url):
     header, encoded = data_url.split(',', 1)
