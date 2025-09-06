@@ -15,15 +15,14 @@ function FinancialNews() {
   const articlesPerPage = 12;
   const observerRef = useRef(null);
 
-  // const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
-  // const API_URL = `https://newsapi.org/v2/everything?q=sensex&language=en&sortBy=publishedAt&pageSize=100&apiKey=${API_KEY}`;
+  const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
+  const API_URL = `https://newsapi.org/v2/everything?q=sensex&language=en&sortBy=publishedAt&pageSize=36&apiKey=${API_KEY}`;
 
   const categories = [
     { id: 'all', name: 'All News', icon: 'fas fa-newspaper' },
     { id: 'markets', name: 'Markets', icon: 'fas fa-chart-line' },
     { id: 'stocks', name: 'Stocks', icon: 'fas fa-chart-bar' },
     { id: 'economy', name: 'Economy', icon: 'fas fa-globe' },
-    { id: 'tech', name: 'Tech Finance', icon: 'fas fa-microchip' }
   ];
 
   useEffect(() => {
@@ -77,7 +76,6 @@ function FinancialNews() {
         markets: ['market', 'trading', 'sensex', 'nifty'],
         stocks: ['stock', 'shares', 'equity', 'ipo'],
         economy: ['economy', 'gdp', 'inflation', 'interest'],
-        tech: ['tech', 'technology', 'startup', 'fintech']
       };
       
       const keywords = categoryKeywords[selectedCategory] || [];
@@ -109,7 +107,12 @@ function FinancialNews() {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/web/news/`);
+      // const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/web/news/`);
+      const res = await fetch(API_URL, {
+        headers: {
+          "X-Api-Key": process.env.REACT_APP_NEWS_API_KEY
+        }
+      });
       const data = await res.json();
       if (data.status === "ok") {
         setNews(data.articles);

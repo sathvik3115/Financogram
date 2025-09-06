@@ -16,7 +16,7 @@ def get_news(request):
         "q": "sensex",
         "language": "en",
         "sortBy": "publishedAt",
-        "pageSize": 100,
+        "pageSize": 36,
         "apiKey": NEWS_API_KEY,
     }
     response = requests.get(url, params=params)
@@ -61,17 +61,12 @@ from rest_framework.response import Response
 
 
 TOP_STOCKS = [
-    'AAPL', 'GOOGL', 'MSFT', 'TSLA', 'AMZN', 'META', 'NFLX', 'NVDA', 'INTC', 'AMD',
-    'IBM', 'ORCL', 'SAP', 'CRM', 'ADBE', 'PYPL', 'UBER', 'LYFT', 'BIDU', 'SHOP',
-    'RELIANCE.BO', 'INFY.BO', 'TCS.BO', 'WIPRO.BO', 'TECHM.BO', 'HCLTECH.BO',
-    'HDFCBANK.BO', 'ICICIBANK.BO', 'SBIN.BO', 'AXISBANK.BO', 'KOTAKBANK.BO', 'IDFCFIRSTB.BO',
-    'BAJFINANCE.BO', 'BAJAJFINSV.BO', 'HINDUNILVR.BO', 'ITC.BO', 'TITAN.BO', 'LT.BO',
-    'MARUTI.BO', 'M&M.BO', 'TATAMOTORS.BO', 'ASHOKLEY.BO', 'HEROMOTOCO.BO', 'EICHERMOT.BO',
-    'ONGC.BO', 'GAIL.BO', 'IOC.BO', 'BPCL.BO', 'COALINDIA.BO', 'NTPC.BO', 'POWERGRID.BO',
-    'JSWSTEEL.BO', 'TATASTEEL.BO', 'VEDL.BO', 'ADANIENT.BO', 'ADANIPORTS.BO',
-    'SUNPHARMA.BO', 'CIPLA.BO', 'DIVISLAB.BO', 'DRREDDY.BO', 'APOLLOHOSP.BO',
-    'ASIANPAINT.BO', 'NESTLEIND.BO', 'BRITANNIA.BO', 'DABUR.BO', 'HAVELLS.BO', 'ULTRACEMCO.BO',
-    'ZEEL.BO', 'PIDILITIND.BO', 'BERGEPAINT.BO'
+    # Global Famous Stocks
+    'AAPL', 'GOOGL', 'MSFT', 'TSLA', 'AMZN', 'META', 'NFLX', 'NVDA', 'IBM', 'ORCL', 
+    'ADBE', 'AMD', 'UBER', 'LYFT', 'SHOP',     
+    # Indian Famous Stocks
+    'RELIANCE.BO', 'HDFCBANK.BO', 'ICICIBANK.BO', 'SBIN.BO', 'AXISBANK.BO', 
+    'KOTAKBANK.BO', 'BAJFINANCE.BO', 'LT.BO', 'MARUTI.BO', 'TATAMOTORS.BO'
 ]
 
 @api_view(['GET'])
@@ -93,7 +88,7 @@ def get_stocks(request):
             }
 
     results = []
-    with ThreadPoolExecutor(max_workers=50) as executor:
+    with ThreadPoolExecutor(max_workers=25) as executor:
         futures = [executor.submit(fetch_info, sym) for sym in TOP_STOCKS]
         for future in as_completed(futures):
             results.append(future.result())
@@ -231,11 +226,11 @@ def get_mutual_funds(request):
             data = json.load(f)
         return Response(data)
 
-    resp = requests.get('https://api.mfapi.in/mf?limit=200&offset=6')
+    resp = requests.get('https://api.mfapi.in/mf?limit=40&offset=6')
     all_schemes = resp.json()
 
     funds = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
         results = list(executor.map(fetch_fund_detail, all_schemes))
         # Filter out None results if any failed
         funds = [fund for fund in results if fund is not None]
