@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+NEWS_API_KEY = os.getenv('NEWS_API_KEY')
+
 @api_view(['GET'])
 def get_news(request):
     url = "https://newsapi.org/v2/everything"
@@ -15,7 +17,7 @@ def get_news(request):
         "language": "en",
         "sortBy": "publishedAt",
         "pageSize": 100,
-        "apiKey": os.getenv.NEWS_API_KEY,  # store in backend
+        "apiKey": NEWS_API_KEY,
     }
     response = requests.get(url, params=params)
     return JsonResponse(response.json())
