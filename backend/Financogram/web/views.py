@@ -1,10 +1,24 @@
 import requests
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import JsonResponse
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
+
+@api_view(['GET'])
+def get_news(request):
+    url = "https://newsapi.org/v2/everything"
+    params = {
+        "q": "sensex",
+        "language": "en",
+        "sortBy": "publishedAt",
+        "pageSize": 100,
+        "apiKey": os.getenv.NEWS_API_KEY,  # store in backend
+    }
+    response = requests.get(url, params=params)
+    return JsonResponse(response.json())
 
 OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')  # from openrouter.ai
 

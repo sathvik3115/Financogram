@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('chat/', views.chat, name='chat'),
+    path('news/', views.get_news, name='get_news'),
     path('stocks/', views.get_stocks, name='get_stocks'),
     path('stocks/<str:symbol>/chart/', views.get_stock_chart, name='get_stock_chart'),
     path('indices/', views.get_indices, name='get_indices'),
