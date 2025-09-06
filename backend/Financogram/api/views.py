@@ -135,14 +135,14 @@ def login_face_view(request):
     try:
         user = User.objects.get(email=email)
 
-        # Check password
+        # Check password (⚠️ use proper hashing in production!)
         if user.password != password:
             return JsonResponse({'status': 'Invalid credentials'}, status=401)
 
-        # Decode live webcam image (base64 string -> NumPy array)
-        live_img = decode_base64_image(face_data_url)  # should return NumPy array
+        # Decode live webcam image (base64 -> NumPy array)
+        live_img = decode_base64_image(face_data_url)
 
-        # Download stored face image from Cloudinary
+        # Download stored face image
         if not user.face_image:
             return JsonResponse({'status': 'Face image not found'}, status=404)
 
@@ -150,27 +150,20 @@ def login_face_view(request):
         if response.status_code != 200:
             return JsonResponse({'status': 'Failed to fetch stored face image'}, status=500)
 
-        # Use delete=False on Windows to prevent immediate deletion
         tmp_file = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False)
         try:
             tmp_file.write(response.content)
-            tmp_file.close()  # close so OpenCV can read it
+            tmp_file.close()
 
-            # Verify face
+            # Face verification
             is_verified = verify_face(live_img, tmp_file.name)
 
             if is_verified:
                 return JsonResponse({'status': 'Login successful!', 'email': user.email})
             else:
                 return JsonResponse({'status': 'Face verification failed!'}, status=401)
-            
-        except Exception as e:
-            # log error e
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            
         finally:
-            # Cleanup temp file
             if os.path.exists(tmp_file.name):
                 os.remove(tmp_file.name)
 
