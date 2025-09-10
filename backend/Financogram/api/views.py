@@ -23,6 +23,8 @@ import base64
 import qrcode
 import os
 
+def root_view(request):
+    return JsonResponse({"status": "ok", "message": "Django API is running."})
 
 # This is a simple view to test if the backend is working
 @api_view(['GET'])

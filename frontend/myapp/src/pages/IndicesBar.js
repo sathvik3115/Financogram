@@ -20,6 +20,11 @@ const IndicesBar = () => {
   };
 
   useEffect(() => {
+    if (!process.env.REACT_APP_BACKEND_URL) {
+      console.warn("Backend URL missing");
+      return;
+    }
+    
     fetchIndices();
     const interval = setInterval(fetchIndices, 60000); // refresh every 60 sec
     return () => clearInterval(interval);
