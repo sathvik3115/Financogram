@@ -18,7 +18,7 @@ seaborn==0.12.2
 python-dotenv==1.0.0
 # mediapipe==0.10.21
 # deepface==0.0.83 --no-deps
-tensorflow-cpu==2.13.0
+# tensorflow-cpu==2.13.0
 keras==2.13.1
 opencv-python-headless==4.8.0.76
 beautifulsoup4==4.13.4

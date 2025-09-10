@@ -1,16 +1,20 @@
 import os
-from .deepface.basemodels.SFace import SFaceClient
-from .deepface.basemodels.VGGFace import VggFaceClient
+from .vendor.deepface.basemodels.SFace import SFaceClient
 
 # Optional cache dict for reuse
 _model_cache = {}
 
 def get_deepface_model(model_name="SFace"):
+    """
+    Returns the local DeepFace model without downloading.
+    Supports SFace only (custom ONNX model).
+    """
+
+    if model_name != "SFace":
+        raise ValueError(f"Only 'SFace' is supported in local setup, got '{model_name}'")
+
     if model_name not in _model_cache:
-        if model_name == "SFace":
-            _model_cache[model_name] = SFaceClient()
-        elif model_name == "VGG-Face":
-            _model_cache[model_name] = VggFaceClient()
-        else:
-            raise ValueError(f"Unsupported model: {model_name}")
+        model = SFaceClient()
+        _model_cache[model_name] = model
+
     return _model_cache[model_name]

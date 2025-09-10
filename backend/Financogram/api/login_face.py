@@ -2,7 +2,7 @@ import base64
 import cv2
 import numpy as np
 from .deepface_model import get_deepface_model
-from .deepface import DeepFace
+from .vendor.deepface import DeepFace
 
 # ⚡ Preload once (ensures it’s cached and uses local weights)
 model = get_deepface_model("SFace")
